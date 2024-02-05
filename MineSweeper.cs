@@ -31,13 +31,21 @@ namespace MinesweeperGame
         private ToolStripStatusLabel scoreLabel;     // Label for displaying the player's score
         private ToolStripStatusLabel topScoreLabel;  // Label for displaying the top score
 
+        Font arialBoldFont = new Font("Arial", 10, FontStyle.Bold);
+
         public MainForm()
         {
             // Call the InitializeComponent method to set up form properties and controls
             InitializeComponent();
 
+            // Set custom app icon
+            this.Icon = MineSweeperGame.Properties.Resources.bomb_icon;
+
             // Initialize a new game with the "Easy" difficulty level
             InitializeGame(Difficulty.Easy);
+
+            // Center the form on the screen
+            CenterToScreen();
         }
 
         private void InitializeComponent()
@@ -69,8 +77,14 @@ namespace MinesweeperGame
             gameMenu.DropDownItems.Add("New Game Medium", null, (sender, e) => InitializeGame(Difficulty.Medium));
             gameMenu.DropDownItems.Add("New Game Hard", null, (sender, e) => InitializeGame(Difficulty.Hard));
 
-            // Add the "Game" menu to the MenuStrip's Items collection
-            menuStrip.Items.Add(gameMenu);
+            // Create a ToolStripMenuItem for the "About" menu
+            ToolStripMenuItem aboutMenu = new ToolStripMenuItem("About and Help");
+
+            // Add sub-items for About and Simple Rules under "About"
+            aboutMenu.DropDownItems.Add("What's this game about", null, (sender, e) => MessageBox.Show("This is similar to normal Minesweeper where the mines are hidden randomly under the buttons, the safe squares have a number on them which tell you how many mines that button is touching. You have to use the number on the button to finish the game and reveal all the safe squares. If you click on a button with a mine you lose. We have put a twist on this and made it so you are also up against the AI, and whoever can do better wins."));
+
+            // Add the "Game" and "About" menus to the MenuStrip's Items collection
+            menuStrip.Items.AddRange(new ToolStripItem[] { gameMenu, aboutMenu });
 
             // Set the MainMenuStrip property of the form to the created MenuStrip
             this.MainMenuStrip = menuStrip;
@@ -272,6 +286,19 @@ namespace MinesweeperGame
             return false;
         }
 
+        private Image ResizeImage(Image img, int width, int height)
+        {
+            // Create a new Bitmap with the specified size
+            Bitmap bmp = new Bitmap(width, height);
+            // Use Graphics to draw the resized image
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.DrawImage(img, 0, 0, width, height);
+            }
+            return bmp;
+        }
+
+
         private void ProcessAISelection(int x, int y, ref int aiScore)
         {
             // Get the button at the specified coordinates for AI's selection
@@ -282,6 +309,15 @@ namespace MinesweeperGame
             {
                 // If AI hits a mine, set the button's background color to red
                 aiButton.BackColor = Color.Red;
+
+                // Resize image cause its HUMONGOUS
+                Image resizedBombImage = ResizeImage(MineSweeperGame.Properties.Resources.conflict_explosion_icon, 12, 12);
+
+                // Set image on the button
+                aiButton.Image = resizedBombImage;
+
+                // Set image to middle of button
+                aiButton.ImageAlign = ContentAlignment.MiddleCenter;
 
                 // Display a message indicating that AI hit a mine, along with scores
                 MessageBox.Show($"AI hit a mine. Final AI Score: {aiScore}. Player Score: {score}");
@@ -328,17 +364,17 @@ namespace MinesweeperGame
             if (aiScore > score)
             {
                 // If AI's score is higher, display a message indicating AI wins
-                MessageBox.Show("AI Wins!");
+                MessageBox.Show("AI Wins! Use the game menu to start a new game.");
             }
             else if (aiScore < score)
             {
                 // If player's score is higher, display a message indicating the player wins
-                MessageBox.Show("Player Wins!");
+                MessageBox.Show("YOU WIN, CONGRATS, YOU BEAT THE AI! Use the game menu to start a new game.");
             }
             else
             {
                 // If both scores are equal, it's a tie, so display a tie message
-                MessageBox.Show("It's a Tie!");
+                MessageBox.Show("Offt that's a tough one its a tie! Use the game menu to start a new game.");
             }
         }
 
@@ -356,7 +392,10 @@ namespace MinesweeperGame
                         Size = new Size(30, 30),
 
                         // Calculate the location of the button based on grid coordinates
-                        Location = new Point(x * 30, y * 30 + 24) // Adjust for menu strip height
+                        Location = new Point(x * 30, y * 30 + 24), // Adjust for menu strip height
+
+                        // Put a custom font on the buttons
+                        Font = arialBoldFont
                     };
 
                     // Attach the Button_Click event handler to handle button clicks
@@ -413,6 +452,15 @@ namespace MinesweeperGame
             {
                 // If a mine is clicked, set the button's background color to red
                 clickedButton.BackColor = Color.Red;
+
+                // Resize image, cause it's stupid big originally
+                Image resizedBombImage = ResizeImage(MineSweeperGame.Properties.Resources.conflict_explosion_icon, 12, 12);
+
+                // Set resized image on hte button
+                clickedButton.Image = resizedBombImage;
+
+                // Align image to the middle
+                clickedButton.ImageAlign = ContentAlignment.MiddleCenter;
 
                 // Call the GameOver method to handle the game-ending logic
                 GameOver();
@@ -523,6 +571,7 @@ namespace MinesweeperGame
             // Loop through neighboring cells using two nested loops for dx and dy
             for (int dx = -1; dx <= 1; dx++)
             {
+                // BIG O NOTATION GOING WILD HERE
                 for (int dy = -1; dy <= 1; dy++)
                 {
                     // Calculate the coordinates of the neighboring cell
@@ -561,22 +610,7 @@ namespace MinesweeperGame
             gameEnded = false;
             UpdateScoreLabels();
 
-            // Check if buttons array is initialized before trying to remove buttons
-            if (buttons != null)
-            {
-                // Remove and dispose of existing buttons
-                for (int x = 0; x < gridSize; x++)
-                {
-                    for (int y = 0; y < gridSize; y++)
-                    {
-                        if (buttons[x, y] != null)
-                        {
-                            this.Controls.Remove(buttons[x, y]);
-                            buttons[x, y].Dispose();
-                        }
-                    }
-                }
-            }
+            DisposeExistingButtons();
 
             // Reinitialize buttons and mines arrays
             buttons = new Button[gridSize, gridSize];
