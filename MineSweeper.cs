@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Team 8
+// Ahmed Youssef 2507690@dundee.ac.uk
+// Arvin Shafiei 2503389@dundee.ac.uk
+// Usama Fakhar 2530869@dundee.ac.uk
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -52,9 +57,15 @@ namespace MinesweeperGame
 
         private void InitializeComponent()
         {
-            // Set the name and title (text) of the form
-            this.Name = "Minesweeper";
+            this.SuspendLayout();
+            // 
+            // MainForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "MainForm";
             this.Text = "Minesweeper";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResumeLayout(false);
 
         }
 
@@ -623,6 +634,11 @@ namespace MinesweeperGame
         {
             scoreLabel.Text = $"Score: {score}";
             topScoreLabel.Text = $"Top Score: {topScore}";
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
