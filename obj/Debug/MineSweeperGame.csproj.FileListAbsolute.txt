@@ -8,3 +8,13 @@ D:\Users\adjib\source\repos\MineSweeperGame\bin\Debug\MineSweeperGame.exe
 D:\Users\adjib\source\repos\MineSweeperGame\bin\Debug\MineSweeperGame.pdb
 D:\Users\adjib\source\repos\MineSweeperGame\obj\Debug\MineSweeperGame.exe
 D:\Users\adjib\source\repos\MineSweeperGame\obj\Debug\MineSweeperGame.pdb
+D:\Users\adjib\Documents\GitHub\MineSweeper\bin\Debug\MineSweeperGame.exe.config
+D:\Users\adjib\Documents\GitHub\MineSweeper\bin\Debug\MineSweeperGame.exe
+D:\Users\adjib\Documents\GitHub\MineSweeper\bin\Debug\MineSweeperGame.pdb
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.csproj.AssemblyReference.cache
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MinesweeperGame.MainForm.resources
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.Properties.Resources.resources
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.csproj.GenerateResource.cache
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.csproj.CoreCompileInputs.cache
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.exe
+D:\Users\adjib\Documents\GitHub\MineSweeper\obj\Debug\MineSweeperGame.pdb

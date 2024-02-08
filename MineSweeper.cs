@@ -35,33 +35,27 @@ namespace MinesweeperGame
 
         public MainForm()
         {
-            // Call the InitializeComponent method to set up form properties and controls
-            InitializeComponent();
-
-            // Set custom app icon
-            this.Icon = MineSweeperGame.Properties.Resources.bomb_icon;
-
-            // Initialize a new game with the "Easy" difficulty level
-            InitializeGame(Difficulty.Easy);
-
-            // Center the form on the screen
-            CenterToScreen();
-        }
-
-        private void InitializeComponent()
-        {
-            // Set the client size of the form based on the grid size and additional height for status strip
-            this.ClientSize = new Size(gridSize * 30, gridSize * 30 + 50);
-
-            // Set the name and title (text) of the form
-            this.Name = "Minesweeper";
-            this.Text = "Minesweeper";
-
             // Initialize the menu strip for game options
             InitializeMenuStrip();
 
             // Initialize the status strip for displaying score information
             InitializeStatusStrip();
+
+            InitializeComponent(); // Initializes form components
+
+            this.ClientSize = new Size(gridSize * 30, gridSize * 30 + 50);
+
+            InitializeGame(Difficulty.Easy); // Initialize game settings
+
+            CenterToScreen(); // Center the form on the screen
+        }
+
+        private void InitializeComponent()
+        {
+            // Set the name and title (text) of the form
+            this.Name = "Minesweeper";
+            this.Text = "Minesweeper";
+
         }
 
         private void InitializeMenuStrip()
@@ -364,17 +358,17 @@ namespace MinesweeperGame
             if (aiScore > score)
             {
                 // If AI's score is higher, display a message indicating AI wins
-                MessageBox.Show("AI Wins! Use the game menu to start a new game.");
+                MessageBox.Show("AI Wins!");
             }
             else if (aiScore < score)
             {
                 // If player's score is higher, display a message indicating the player wins
-                MessageBox.Show("YOU WIN, CONGRATS, YOU BEAT THE AI! Use the game menu to start a new game.");
+                MessageBox.Show("YOU WIN, CONGRATS, YOU BEAT THE AI!");
             }
             else
             {
                 // If both scores are equal, it's a tie, so display a tie message
-                MessageBox.Show("Offt that's a tough one its a tie! Use the game menu to start a new game.");
+                MessageBox.Show("Offt that's a tough one its a tie!");
             }
         }
 
@@ -392,7 +386,7 @@ namespace MinesweeperGame
                         Size = new Size(30, 30),
 
                         // Calculate the location of the button based on grid coordinates
-                        Location = new Point(x * 30, y * 30 + 24), // Adjust for menu strip height
+                        Location = new Point(x * 30, y * 30 + 24),
 
                         // Put a custom font on the buttons
                         Font = arialBoldFont
